@@ -1,15 +1,19 @@
 #!/bin/python3
 
 import os
-from collections import Counter
+from collections import Counter, defaultdict
 
 
 def make_anagram(a: str, b: str) -> int:
     a_counter = Counter(a)
     b_counter = Counter(b)
+    check_dict = defaultdict()
 
     for c in a:
         if c in b_counter:
+            if c in check_dict:
+                continue
+            check_dict[c] = True
             if a_counter[c] >= b_counter[c]:
                 a_counter[c] -= b_counter[c]
                 b_counter[c] = 0
@@ -19,6 +23,9 @@ def make_anagram(a: str, b: str) -> int:
 
     for c in b:
         if c in a_counter:
+            if c in check_dict:
+                continue
+            check_dict[c] = True
             if b_counter[c] >= a_counter[c]:
                 b_counter[c] -= a_counter[c]
                 a_counter[c] = 0
